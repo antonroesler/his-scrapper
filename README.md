@@ -1,5 +1,7 @@
 # his-scrapper
 
+The his-scrapper is a tool for all Frankfurt UAS students. It automatically checks every 5 minutes on HIS if a new grade was published. If so it makes a sound and displays the grade. This script was until now only tested for my account and on a MacOS system. Feel free to open Issues if you find any bugs and I will fix them :) you can also contribute to the project to make it better, just contact me, everyone is welcome. I'm not sure how exectly HIS works, and I also do not care, but I am pretty sure that this script works only for EBIS students, beacause of the static URL that is used, if you are from another study program and want to use the script, again just open a Issue and I am sure we will find a way to make it work. 
+
 ## How to use it
 
 1) Install requirements
