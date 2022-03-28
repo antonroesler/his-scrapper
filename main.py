@@ -7,12 +7,17 @@ from selenium.webdriver.chrome.options import Options
 import os
 import sys
 from dotenv import load_dotenv
+import chromedriver_autoinstaller
+
+
+chromedriver_autoinstaller.install() 
 
 load_dotenv()
 
 o = Options()
-o.add_argument("--headless")
-
+#o.add_argument("--headless")
+o.add_argument('headless')
+o.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 new_garde = 0
 COUNTER = 0
@@ -97,7 +102,7 @@ def check(nums):
             print("New Grade is Out")
             print(grade)
             add_grade(grade.num)
-            for _ in range(10):
+            for _ in range(1):
                 beep(5)
                 sleep(1)
                 if grade == 1.0:
@@ -115,9 +120,9 @@ if __name__ == "__main__":
         print(f"Initiliazing Grades for {user}.")
         add_all_existing()
     elif arg.lower() == "fetch":
-        print(f"Fetching Grades for {user}.")
-        nums = load_nums()
+        print(f"Fetching Grades for {user}.")    
         while True:
+            nums = load_nums()
             print(".", end="", flush=True)
             check(nums)
-            sleep(300)
+            sleep(20)
