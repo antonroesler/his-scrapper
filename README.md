@@ -18,11 +18,11 @@ his-scrapper
 └── main.py
 ```
 
-In the .env file add two lines:
-
+In the .env file add two line
+```
 HIS_LOGIN=12345678
 HIS_PW=MyHisPasswordSuper!Secret
-
+```
 Of course you'll need to use your own HIS Login Data
 
 3) Run 
