@@ -22,6 +22,11 @@ In the .env file add two line
 ```
 HIS_LOGIN=12345678
 HIS_PW=MyHisPasswordSuper!Secret
+EMAIL_USER=email@anbieter.de
+EMAIL_PASSWORD=MyHisPasswordSuper!Secret
+EMAIL_TO=email@anbieter.de
+SMTP_SERVER=smtp.server.de
+SMTP_PORT=587
 ```
 Of course you'll need to use your own HIS Login Data
 
