@@ -8,6 +8,10 @@ import os
 import sys
 from dotenv import load_dotenv
 
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 load_dotenv()
 
 o = Options()
@@ -34,15 +38,15 @@ def load_nums():
     try:
         with open(".grades", 'r') as file:
             for line in file:
-                temp.append(int(line))
+                temp.append(int(line.split(",")[0]))
     except FileNotFoundError:
         with open(".grades", 'w') as file:
             file.write('')
     return temp
 
-def add_grade(module_id: int):
+def add_grade(module_id: int, grade: float, name: str):
     with open('.grades', 'a') as file:
-        file.write(str(module_id))
+        file.write(str(module_id)+",\t" + str(grade) + ",\t"+str(name))
         file.write("\n")
 
 
@@ -87,7 +91,7 @@ def add_all_existing():
     current = load_nums()
     for grade in get_all_grades_from_his():
         if grade.num not in current:
-            add_grade(grade.num)
+            add_grade(grade.num, grade.grade, grade.name)
 
 
 def check(nums):
@@ -96,13 +100,38 @@ def check(nums):
             print()
             print("New Grade is Out")
             print(grade)
-            add_grade(grade.num)
+            send_email(grade)
+            add_grade(grade.num, grade.grade, grade.name)
             for _ in range(10):
                 beep(5)
                 sleep(1)
                 if grade == 1.0:
                     beep(6)
+
+def send_email(grade):
+    email_user = os.getenv("EMAIL_USER")
+    email_password = os.getenv("EMAIL_PASSWORD")
+    from_email = email_user
+    to_email=os.getenv("EMAIL_TO")
+
+    msg = MIMEMultipart()
+    msg["From"] = from_email
+    msg["To"] = to_email
+    msg["Subject"] = "New Grade"
+
+    message=(f"Modul: {grade.name}: {grade.grade}")
     
+    msg.attach(MIMEText(message, "plain"))
+
+    # E-Mail-Verbindung aufbauen
+    server = smtplib.SMTP(os.getenv("SMTP_SERVER"), os.getenv("SMTP_PORT"))  # Beispielserver und Port
+    server.starttls()
+
+    server.login(email_user, email_password)
+
+    server.sendmail(from_email, to_email, msg.as_string())
+
+    server.quit()
 
 if __name__ == "__main__":
     print("Welcome to the HIS Grade Scrapper. Use help to get help.")
